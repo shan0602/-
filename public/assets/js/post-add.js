@@ -9,7 +9,7 @@ $.ajax({
             data: data
         })
         //   console.log(html);
-        console.log(1);
+        // console.log(1);
 
         $("#category").html(html)
     }
@@ -73,4 +73,66 @@ $("#addForm").on('submit', function () {
     return false;
 
 })
-//
+//取到url里面的参数
+function getUrl(name){
+    //取到url里面的参数
+    var query=location.search.substring(1).split('&')
+    // console.log(query);
+    if(query&&query.length>0){
+        var value=-1
+        query.forEach(item=>{
+            var tep=item.split('=')
+            // console.log(tep);
+            if(name==tep[0]){
+              return  value=tep[1]
+                // return tep[1]
+            }
+       })
+
+    }
+    return value
+}
+//获取浏览器地址中的id
+var id=getUrl('id');
+if(id!=-1){
+    $.ajax({
+        type:'get',
+        url:'/posts/'+id,
+        success:function(resp){
+            // console.log(resp);
+            $.ajax({
+                url:'/categories',
+                type:'get',
+                success:function(categories){
+                    resp.categories=categories
+                    console.log(resp);
+                    var html=template('modifyTpl',resp)
+                    // console.log(html);
+                    
+                    $('#parentsBox').html(html)
+
+                    
+                }
+            })
+        }
+    })
+}
+
+//修改文章提交表单
+$("#parentsBox").on('submit','#modifyForm',function(){
+    //拿到表单里面的数据
+    var formData=$(this).serialize()
+    //拿到id的值
+    var id=$(this).attr('data-id')
+    console.log(id);
+    
+    $.ajax({
+        url:'/posts/'+id,
+        type:'put',
+        data:formData,
+        success:function(){
+            location.href='/admin/posts.html'
+        }
+    })
+    return false
+})
