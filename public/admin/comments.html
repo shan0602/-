@@ -100,7 +100,7 @@
     <td>{{$value.author.nickName}}</td>
     <td>{{$value.content}}</td>
     <td>{{$value.post.title}}</td>
-    <td>{{$value.createAt}}</td>
+    <td>{{$imports.formateDate($value.createAt)}}</td>
     <td>{{$value.state==0?'未审核':'已批准'}}</td>
     <td class="text-center">
   <a href="javascript:;" class="btn btn-info btn-xs status" data-status='{{$value.state}}'  data-id='{{$value._id}}'>{{$value.state==0?'批准':'驳回'}}</a>

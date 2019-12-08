@@ -1,3 +1,4 @@
+//退出登录
 $("#logout").on('click', function () {
     //做一个确认,如果是true的话就让他转跳到登录页面
     var isConfirm = confirm('确认要退出登录吗?')
@@ -46,4 +47,20 @@ $("#logout").on('click', function () {
           
 
       }
+  })
+
+  //显示登录的信息
+  $.ajax({
+    type:"get",
+    url:'/users/'+userId,
+    success:function(data){
+      console.log(data);
+   //重新渲染模板
+   var html=template('textTpl',data)   
+   console.log(html);
+   
+   $("#nickName").html(html)
+
+      
+    }
   })
