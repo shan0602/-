@@ -27,3 +27,23 @@ $.ajax({
           })
     }
 })
+
+function formateDate(date) {
+    // 将日期时间字符串转换成日期对象
+    date = new Date(date);
+    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+  }
+//最新发布数据
+$.ajax({
+    type:'get',
+    url:'/posts/lasted',
+    success:function(data){
+        // console.log(data);
+        var html=template('lastTpl',{data:data})
+        // console.log(html);
+        
+        $("#lastBox").html(html)
+       
+    }
+
+})
